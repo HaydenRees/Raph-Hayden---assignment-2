@@ -7,10 +7,11 @@ from Crypto.Cipher import PKCS1_OAEP
 import os
 import os.path
 
-# used code from lectorial 5 to allow paths to work on all operating systems
+# used code from lectorial 5 files: rsa_pycryptodome_file.py
+# 1. to allow paths to work on all operating systems
+# 2. to ensure the keys and output directories exist before saving files to them
 BASE = os.path.dirname(os.path.abspath(__file__))
 
-# Ensures the keys and output directories exist before saving files to them
 os.makedirs(os.path.join(BASE, "keys"), exist_ok=True)
 os.makedirs(os.path.join(BASE, "output"), exist_ok=True)
 
@@ -33,7 +34,7 @@ def generate_keys():
     return private_key, public_key
 
 # used code from lectorial 5 files: aes_ofb_string.py
-# 1. To generate a 16 byte random value using get_random_bytes()
+# 1. To generate a 32 byte key and a 16 byte random value using get_random_bytes()
 def generate_aes_key_and_iv():
     key = get_random_bytes(32)
     iv = get_random_bytes(16)
@@ -45,9 +46,11 @@ def generate_aes_key_and_iv():
 # 2. to open the input file to encrypt the contents
 def aes_encryption(input_file_path, output_file_path, key, iv):
     cipher = AES.new(key, AES.MODE_CFB, iv)
+    # Using "read binary" mode as AES only accepts bytes
     with open(input_file_path, 'rb') as in_file:
         encrypted_data = cipher.encrypt(in_file.read())
 
+    # iv is added to the beginning of the output file in order for the receiver to be able to recover it
     with open(output_file_path, 'wb') as out_file:
         out_file.write(iv + encrypted_data)
 
@@ -61,6 +64,7 @@ def encrypt_aes_key(aes_key, public_key_path, output_file_path):
     with open(public_key_path, "rb") as in_file:
         public_key = RSA.import_key(in_file.read())
 
+    # Textbook RSA is prevented through OAEP 
     cipher = PKCS1_OAEP.new(public_key)
     encrypted_aes_key = cipher.encrypt(aes_key)
 
@@ -72,6 +76,7 @@ def encrypt_aes_key(aes_key, public_key_path, output_file_path):
 # used code from lectorial 5 files: rsa_pycryptodome_file.py
 # 1. to decrypt the AES key using the .decrypt() method
 def decrypt_aes_key(encrypted_aes_key_path, private_key_path):
+    # Reads the encrypted AES key from the file to show the process of encryption and decryption
     with open(encrypted_aes_key_path, "rb") as aes_key_file:
         encrypted_aes_key = aes_key_file.read() 
 
@@ -158,5 +163,3 @@ if __name__ == "__main__":
     print("Files Match:", file_match)
     print("AES Keys Match:", key_match)
     print("IVs Match:", iv_match)
-
-
