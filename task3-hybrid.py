@@ -7,14 +7,14 @@ from Crypto.Cipher import PKCS1_OAEP
 import os
 import os.path
 
-# used code from lecture 5 to allow paths to work on all operating systems
+# used code from lectorial 5 to allow paths to work on all operating systems
 BASE = os.path.dirname(os.path.abspath(__file__))
 
 # Ensures the keys and output directories exist before saving files to them
 os.makedirs(os.path.join(BASE, "keys"), exist_ok=True)
 os.makedirs(os.path.join(BASE, "output"), exist_ok=True)
 
-# used code from lecture 5 files: rsa_pycryptodome_file.py 
+# used code from lectorial 5 files: rsa_pycryptodome_file.py 
 # 1. to generate an RSA key pair
 # 2. store the RSA key pair in the keys directory.
 def generate_keys():
@@ -32,7 +32,7 @@ def generate_keys():
 
     return private_key, public_key
 
-# used code from lecture 5 files: aes_ofb_string.py
+# used code from lectorial 5 files: aes_ofb_string.py
 # 1. To generate a 16 byte random value using get_random_bytes()
 def generate_aes_key_and_iv():
     key = get_random_bytes(32)
@@ -40,7 +40,7 @@ def generate_aes_key_and_iv():
 
     return key, iv
 
-# used code from lecture 5 files: aes_cfb_file.py, aes_ofb_string.py
+# used code from lectorial 5 files: aes_cfb_file.py, aes_ofb_string.py
 # 1. to create an AES cipher using CFB mode 
 # 2. to open the input file to encrypt the contents
 def aes_encryption(input_file_path, output_file_path, key, iv):
@@ -53,7 +53,7 @@ def aes_encryption(input_file_path, output_file_path, key, iv):
 
     return encrypted_data
 
-# used code from lecture 5 files: rsa_pycryptodome_file.py 
+# used code from lectorial 5 files: rsa_pycryptodome_file.py 
 # 1. to create the OAEP cipher 
 # 2. encrypt the AES key using that cipher
 # 3. write the encrypted AES key to a file
@@ -69,7 +69,7 @@ def encrypt_aes_key(aes_key, public_key_path, output_file_path):
 
     return encrypted_aes_key
 
-# used code from lecture 5 files: rsa_pycryptodome_file.py
+# used code from lectorial 5 files: rsa_pycryptodome_file.py
 # 1. to decrypt the AES key using the .decrypt() method
 def decrypt_aes_key(encrypted_aes_key_path, private_key_path):
     with open(encrypted_aes_key_path, "rb") as aes_key_file:
@@ -83,7 +83,7 @@ def decrypt_aes_key(encrypted_aes_key_path, private_key_path):
 
     return aes_key
 
-# Used code from lecture 5 files: aes_cfb_file.py
+# Used code from lectorial 5 files: aes_cfb_file.py
 # 1. To read the encrypted file
 # 2. To split the 16 bytes IV from the encrypted data
 # 3. To generate an AES cipher in CFB mode
