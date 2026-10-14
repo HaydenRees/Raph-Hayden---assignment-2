@@ -48,3 +48,27 @@ def decrypt(private_key, cipherText):
     d, n = private_key
     plainText = pow(cipherText, d, n)
 
+    return plainText
+
+if __name__ == '__main__':
+
+    inputDir = os.path.join(BASE, 'input')
+    os.makedirs(inputDir, exist_ok=True)
+    task2_file = os.path.join(inputDir, 'task2.txt')
+
+    studentID_str = "3844483"
+    messageInt = int(studentID_str)
+
+    publicKey, privateKey = generateKeys()
+    print("Public Key (e, n): ", publicKey)
+    print("Private Key (d, n): ", privateKey)
+
+    encryptedMsg = encrypt(publicKey, messageInt)
+    print("Encrypted int: ", encryptedMsg)
+
+    decryptMsgInt = decrypt(privateKey, encryptedMsg)
+    decryptedMsgStr = str(decryptMsgInt)
+    print("Decrypted string: ", decryptedMsgStr)
+
+    with open(task2_file, 'w') as f:
+        f.write(decryptedMsgStr)
