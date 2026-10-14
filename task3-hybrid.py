@@ -150,7 +150,7 @@ if __name__ == "__main__":
         iv_match = False
 
 
-    # prints all values required
+    # prints all values required using .decode() or .hex() for readability
     print("RSA Private Key:", private_key.decode())
     print("RSA Public Key:", public_key.decode())
     print("AES Key:", key.hex())
