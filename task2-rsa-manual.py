@@ -1,13 +1,14 @@
 import os
 import os.path
 
+# Allow paths to work on all operating systems
 BASE = os.path.dirname(os.path.abspath(__file__))
-'calculation of GCD'
+#calculation of GCD using euclidian algorithm
 def gcd(a, b):
     while b!= 0:
         a, b = b, a % b
     return a
-
+#Using extended Euclidian algorithm to find private key exponent
 def multiplicativeInverse(e, phi):
     d, x1, x2, y1 = 0, 0, 1, 1
     temp_phi = phi
@@ -25,7 +26,7 @@ def multiplicativeInverse(e, phi):
 
     if temp_phi == 1:
         return d + phi
-    
+#generating keys (pub + priv)
 def generateKeys():
     p = 2027
     q = 2039
@@ -37,13 +38,13 @@ def generateKeys():
     d = multiplicativeInverse(e, phi)
 
     return (e, n), (d, n)
-
+#encryptes messageToEncrypte using public key
 def encrypt(public_key, messageToEncrypt):
     e, n = public_key
     cipher = pow(messageToEncrypt, e, n)
 
     return cipher
-
+#decrypts ciphertext using private key
 def decrypt(private_key, cipherText):
     d, n = private_key
     plainText = pow(cipherText, d, n)

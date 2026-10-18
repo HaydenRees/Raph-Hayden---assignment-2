@@ -25,6 +25,5 @@ def encryption(prime1, prime2, plainText, keyPath, cipherPath):
     n = prime1 * prime2
     e = 65537
 
-    key = RSA.construct(n, e)
 
-    
+
